@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شبكة سناء نت - حالة الاتصال</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- تحديث تلقائي للصفحة كل دقيقة لقراءة الاستهلاك -->
+  $(if refresh-timeout)
+  <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+  $(endif)
+</head>
+<body>
+
+  <div class="main-container">
+    
+    <button type="button" class="theme-toggle-btn" onclick="toggleDarkMode()" title="تبديل الوضع الليلي / النهاري">
+      <i id="themeIcon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <div class="header-section">
+      <div class="logo-wrapper">
+        <img id="logo" src="img/kjl.jpg.jpeg" alt="شعار سناء نت">
+      </div>
+      <h1 class="net-title">SANA NET</h1>
+      <p class="net-slogan">شبكة سناء الفضائية - تفاصيل اتصالك</p>
+
+      <div class="greeting-dhikr-bar">
+        <span id="smartGreeting" class="greeting-text">مرحباً بك</span>
+        <span class="separator">•</span>
+        <span id="rotatingDhikr" class="dhikr-text">سبحان الله</span>
+      </div>
+    </div>
+
+    <div class="body-content">
+      
+      <div class="connected-card" style="display: block;">
+        <!-- صندوق تنبيه اقتراب انتهاء الكرت مع شعار الشبكة -->
+        <div id="lowBalanceAlert" style="display: none; background: #fef2f2; border: 1.5px solid #ef4444; color: #991b1b; padding: 14px; border-radius: 16px; margin-bottom: 16px; text-align: center; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);">
+          <div style="width: 70px; margin: 0 auto 10px;">
+            <img src="img/kjl.jpg.jpeg" alt="شعار سناء نت" style="width: 100%; height: auto; object-fit: contain; display: block;">
+          </div>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px; color: #ef4444;"></i>
+            <span style="font-weight: 800; font-size: 13px;">تنبيه: رصيد كرتك قارب على الانتهاء!</span>
+          </div>
+        </div>
+        <div class="connected-header">
+          <div class="connected-title">
+            <h2>أنت متصل بالإنترنت</h2>
+            <p>بيانات استهلاك الكرت الحالية</p>
+          </div>
+          <div class="check-badge">
+            <i class="fa-solid fa-check"></i>
+          </div>
+        </div>
+
+        <div class="status-rows-list">
+          <div class="status-row-item">
+            <span class="label">اسم المستخدم</span>
+            <span class="val">
+              <span id="statUser">$(username)</span>
+              <button type="button" class="copy-chip-btn" onclick="copyCardUser()" title="نسخ الكود">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">عنوان الـ IP</span>
+            <span class="val">$(ip)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">عنوان الـ MAC</span>
+            <span class="val">$(mac)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">التنزيل</span>
+            <span class="val" id="statDownload">$(bytes-in-nice)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">الرفع</span>
+            <span class="val" id="statUpload">$(bytes-out-nice)</span>
+          </div>
+
+          $(if remain-bytes-total)
+          <div class="status-row-item">
+            <span class="label">التحميل المتبقي</span>
+            <span class="val" id="statRemainingBytes">$(remain-bytes-total-nice)</span>
+          </div>
+          $(endif)
+
+          <div class="status-row-item">
+            <span class="label">الوقت المستهلك</span>
+            <span class="val" id="statUptime">$(uptime)</span>
+          </div>
+
+          $(if session-time-left)
+          <div class="status-row-item">
+            <span class="label">الوقت المتبقي</span>
+            <span class="val" id="statRemainingTime">$(session-time-left)</span>
+          </div>
+          $(endif)
+        </div>
+
+        <div class="speed-ping-box">
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #334155;">جودة إشارة الشبكة:</div>
+            <div id="pingResult" style="font-size: 13px; font-weight: 900; color: #16a34a;">ممتازة (مستقرة)</div>
+          </div>
+          <button type="button" class="speed-ping-btn" onclick="testPing()">قياس الاستجابة</button>
+        </div>
+
+        <!-- فورم تسجيل الخروج للمايكروتك -->
+        <form action="$(link-logout)" name="logout" method="post" onsubmit="handleLogout()">
+          <button type="submit" class="logout-btn-custom">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="support-btn-box">
+        <button type="button" class="support-btn" onclick="contactSupportWhatsApp()">
+          <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i>
+          <span>خدمة العملاء </span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="page-footer-url">
+      رابط الصفحة :- 10.0.0.1
+    </div>
+
+  </div>
+
+  <script>
+    const mikrotikUsername = "$(username)";
+    const mikrotikRemainBytes = "$(remain-bytes-total)";
+    const mikrotikTotalBytes = "$(limit-bytes-total)";
+  </script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شبكة سناء نت - تسجيل الدخول</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- مكتبة التعرف الضوئي على الأرقام والنصوص OCR -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="main-container">
+    
+    <!-- زر تبديل الوضع الليلي والنهاري -->
+    <button type="button" class="theme-toggle-btn" onclick="toggleDarkMode()" title="تبديل الوضع الليلي / النهاري">
+      <i id="themeIcon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <div class="header-section">
+      <div class="logo-wrapper">
+        <img id="logo" src="img/kjl.jpg.jpeg" alt="شعار سناء نت">
+      </div>
+      <h1 class="net-title">SANA NET</h1>
+      <p class="net-slogan">شبكة سناء الفضائية - لسنا الوحيدون ولكننا قوة القوة</p>
+
+      <div class="greeting-dhikr-bar">
+        <span id="smartGreeting" class="greeting-text">مرحباً بك</span>
+        <span class="separator">•</span>
+        <span id="rotatingDhikr" class="dhikr-text">سبحان الله</span>
+      </div>
+    </div>
+
+    <div class="ticker-bar">
+      <div class="ticker-content">
+        قال تعالى: ﴿ يَعْلَمُ خَائِنَةَ الْأَعْيُنِ وَمَا تُخْفِي الصُّدُورُ ﴾ — احذر يا من خلوت بالشبكة وما درى، فالله يراك ويعلم ما خفي وما جرى.
+      </div>
+    </div>
+
+    <div class="body-content">
+      
+      $(if error)
+      <div class="error-box">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>$(error)</span>
+      </div>
+      $(endif)
+
+      <div id="preLoginSection">
+        
+        <div class="auto-refresh-box">
+          <div class="auto-refresh-title">
+            <i class="fa-solid fa-arrows-rotate" id="refreshIcon"></i>
+            <span>التحديث التلقائي للشبكة</span>
+          </div>
+          <label class="switch-btn">
+            <input type="checkbox" id="autoRefreshToggle" onchange="toggleAutoRefresh(this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="section-label">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>أختر السرعة المناسبة لك:-</span>
+        </div>
+        <div class="speeds-grid">
+          <div class="speed-pill" onclick="selectSpeed(this, 'خفيفة')">خفيفة</div>
+          <div class="speed-pill active" onclick="selectSpeed(this, 'متوسطة')">متوسطة</div>
+          <div class="speed-pill" onclick="selectSpeed(this, 'عالية')">عالية</div>
+          <div class="speed-pill" onclick="selectSpeed(this, 'عالية جداً')">عالية جداً</div>
+        </div>
+
+        <form id="loginForm" name="login" action="$(link-login-only)" method="post" onsubmit="handlePreSubmit()">
+          <input type="hidden" name="dst" value="$(link-orig)" />
+          <input type="hidden" name="popup" value="true" />
+          <input type="hidden" id="password" name="password">
+
+          <div class="input-field">
+            <i class="fa-solid fa-user-lock field-icon-main"></i>
+            <input type="password" id="username" name="username" value="$(username)" placeholder="أدخل اسم المستخدم / الرمز" required autocomplete="off">
+            <div class="field-actions">
+              <button type="button" class="field-btn" onclick="togglePasswordVisibility()" title="إظهار / إخفاء الرمز">
+                <i id="eyeIcon" class="fa-solid fa-eye"></i>
+              </button>
+              <button type="button" class="field-btn" onclick="openScannerModal()" title="مسح الكرت بالكاميرا">
+                <i class="fa-solid fa-camera" style="color: #003366; font-size: 17px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="login-btn">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>تسجيل الدخول للإنترنت</span>
+          </button>
+        </form>
+
+        <div id="savedCardsSection" class="saved-cards-box" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 12px; font-weight: 800; color: #475569;">
+              <i class="fa-solid fa-clock-rotate-left"></i> الكروت السابقة:
+            </span>
+            <button type="button" onclick="clearSavedCards()" style="background: none; border: none; color: #ef4444; font-size: 11px; font-weight: 700; cursor: pointer;">
+              مسح السجل
+            </button>
+          </div>
+          <div id="savedCardsList" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <button type="button" class="pos-btn" onclick="openPosModal()">
+          <i class="fa-solid fa-store"></i>
+          <span> نقاط بيع الكروت</span>
+        </button>
+
+        <!-- زر فحص رصيد وصلاحية الكرت بأيقونة العداد -->
+        <button type="button" class="pos-btn" onclick="openBalanceModal()" style="margin-top: 8px; background: #0284c7;">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span> فحص رصيد وصلاحية الكرت</span>
+        </button>
+
+        <div class="cards-section-title">
+          <i class="fa-solid fa-ticket"></i>
+          <span>فئات الكروت المتاحة:</span>
+        </div>
+        <div class="cards-grid">
+          <button type="button" class="card-category-btn c-200" onclick="showCardPreview('200', '1 جيجابايت', '2 يوم', 'img/rtvc.jpg.jpeg')">
+            <span class="card-price">200</span>
+            <span class="card-unit">ريال</span>
+          </button>
+          <button type="button" class="card-category-btn c-300" onclick="showCardPreview('300', '2 جيجابايت', '5 أيام', 'img/omcx.jpg.jpeg')">
+            <span class="card-price">300</span>
+            <span class="card-unit">ريال</span>
+          </button>
+          <button type="button" class="card-category-btn c-500" onclick="showCardPreview('500', '5 جيجابايت', '10 أيام', 'img/nmk.jpg.jpeg')">
+            <span class="card-price">500</span>
+            <span class="card-unit">ريال</span>
+          </button>
+          <button type="button" class="card-category-btn c-1000" onclick="showCardPreview('1000', '11 جيجابايت', '30 يوم', 'img/uxz.jpg.jpeg')">
+            <span class="card-price">1000</span>
+            <span class="card-unit">ريال</span>
+          </button>
+          <button type="button" class="card-category-btn c-1500" onclick="showCardPreview('1500', '16 جيجابايت', '30 يوم', 'img/ewq.jpg.jpeg')">
+            <span class="card-price">1500</span>
+            <span class="card-unit">ريال</span>
+          </button>
+          <button type="button" class="card-category-btn c-2000" onclick="showCardPreview('2000', '25 جيجابايت', '30 يوم', 'img/rty.jpg.jpeg')">
+            <span class="card-price">2000</span>
+            <span class="card-unit">ريال</span>
+          </button>
+          <button type="button" class="card-category-btn c-4000" style="grid-column: span 2;" onclick="showCardPreview('4000', '500 جيجابايت', '30 يوم', 'img/rewq.jpg.jpeg')">
+            <span class="card-price">4000</span>
+            <span class="card-unit">ريال</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="connected-card" id="connectedCard">
+        <div class="connected-header">
+          <div class="connected-title">
+            <h2>تم تسجيل دخولك بنجاح!</h2>
+            <p>تفاصيل اتصالك الحالي</p>
+          </div>
+          <div class="check-badge">
+            <i class="fa-solid fa-check"></i>
+          </div>
+        </div>
+
+        <div class="status-rows-list">
+          <div class="status-row-item">
+            <span class="label">السرعة</span>
+            <span class="val" id="statSpeed">سرعة متصلة</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">أسم المستخدم</span>
+            <span class="val">
+              <span id="statUser">$(username)</span>
+              <button type="button" class="copy-chip-btn" onclick="copyCardUser()" title="نسخ الكود">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">التنزيل</span>
+            <span class="val" id="statDownload">$(bytes-in-nice)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">الرفع</span>
+            <span class="val" id="statUpload">$(bytes-out-nice)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">التحميل المتبقي</span>
+            <span class="val" id="statRemainingBytes">$(remain-bytes-total-nice)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">الوقت المستهلك</span>
+            <span class="val" id="statUptime">$(uptime)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">الوقت المتبقي</span>
+            <span class="val" id="statRemainingTime">$(session-time-left)</span>
+          </div>
+        </div>
+
+        <div class="speed-ping-box">
+          <div>
+            <div style="font-size: 12px; font-weight: 800; color: #334155;">جودة إشارة الشبكة:</div>
+            <div id="pingResult" style="font-size: 13px; font-weight: 900; color: #16a34a;">ممتازة (مستقرة)</div>
+          </div>
+          <button type="button" class="speed-ping-btn" onclick="testPing()">قياس الاستجابة</button>
+        </div>
+
+        <form action="$(link-logout)" name="logout" method="post" onsubmit="handleLogout()">
+          <button type="submit" class="logout-btn-custom">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="support-btn-box">
+        <button type="button" class="support-btn" onclick="contactSupportWhatsApp()">
+          <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i>
+          <span>خدمة العملاء </span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="page-footer-url">
+      رابط الصفحة :- 10.0.0.1
+    </div>
+
+  </div>
+
+  <!-- 1. نافذة نقاط البيع المنفصلة -->
+  <div id="posModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); z-index: 100000; align-items: center; justify-content: center; padding: 16px;" onclick="closePosModal()">
+    <div style="background: #ffffff; border-radius: 24px; max-width: 420px; width: 100%; padding: 24px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); position: relative; text-align: center;" onclick="event.stopPropagation()">
+      <button type="button" onclick="closePosModal()" style="position: absolute; top: 14px; left: 14px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; color: #64748b; font-size: 18px;">✕</button>
+      <div class="logo-wrapper" style="width: 100%; max-width: 160px; margin: 0 auto 15px;">
+        <img src="img/kjl.jpg.jpeg" alt="شعار سناء نت" style="width: 100%; height: auto; object-fit: contain;">
+      </div>
+      <h3 style="color: #003366; margin-bottom: 16px; font-weight: 800;">مراكز بيع وتوزيع الكروت</h3>
+      <div class="pos-item">
+        <div class="pos-icon">👤</div>
+        <div>
+          <div class="pos-name">أنور باصمد</div>
+          <div class="pos-sub">نقطة معتمدة - متوفر جميع الفئات</div>
+        </div>
+      </div>
+      <div class="pos-item">
+        <div class="pos-icon">🏪</div>
+        <div>
+          <div class="pos-name">بقالة سالم باشول</div>
+          <div class="pos-sub">نقطة معتمدة - متوفر جميع الفئات</div>
+        </div>
+      </div>
+    
+        <div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. نافذة استعراض صورة الكرت -->
+  <div id="cardModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 200000; align-items: center; justify-content: center; padding: 16px;" onclick="closeCardModal()">
+    <div style="background: #ffffff; border-radius: 24px; max-width: 400px; width: 100%; padding: 22px; box-shadow: 0 25px 50px rgba(0,0,0,0.5); position: relative; text-align: center;" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeCardModal()" style="position: absolute; top: 14px; left: 14px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; color: #64748b; font-size: 18px;">✕</button>
+      <h3 id="modalCardTitle" style="color: #003366; font-weight: 800; margin-bottom: 10px;">كرت الشبكة</h3>
+      <img id="modalCardImg" src="" alt="تصميم الكرت" style="width: 100%; max-height: 320px; object-fit: contain; border-radius: 14px; background: #f8fafc; margin: 10px 0; display: block; border: 1px solid #e2e8f0;">
+      <div style="display: flex; justify-content: space-around; background: #f1f5f9; padding: 10px; border-radius: 14px; font-weight: 700; font-size: 13px; margin-top: 10px;">
+        <div>الحجم: <span id="modalCardSize" style="color:#003366;">---</span></div>
+        <div>الصلاحية: <span id="modalCardValidity" style="color:#003366;">---</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. نافذة ماسح أرقام الكرت بالكاميرا (OCR) -->
+  <div id="scannerModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 300000; align-items: center; justify-content: center; padding: 16px;" onclick="closeScannerModal()">
+    <div style="background: #ffffff; border-radius: 24px; max-width: 380px; width: 100%; padding: 22px 18px; text-align: center; position: relative;" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeScannerModal()" style="position: absolute; top: 12px; left: 12px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; color: #64748b; font-size: 18px;">✕</button>
+      <h3 style="color: #003366; font-size: 16px; font-weight: 800; margin-bottom: 8px;">وجّه المستطيل الأبيض للأرقام</h3>
+      
+      <!-- إطار الكاميرا مع مستطيل التحديد الأخضر -->
+      <div style="position: relative; width: 100%; height: 210px; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 12px;">
+        <video id="ocr-video" autoplay playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+        
+        <!-- مستطيل التركيز على رقم الكرت -->
+        <div style="position: absolute; top: 35%; left: 10%; width: 80%; height: 30%; border: 2px dashed #22c55e; box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.55); pointer-events: none; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+          <span style="font-size: 11px; color: #fff; background: rgba(0, 0, 0, 0.7); padding: 2px 6px; border-radius: 4px;">المستطيل الأبيض هنا</span>
+        </div>
+      </div>
+
+      <canvas id="ocr-canvas" style="display: none;"></canvas>
+
+      <button type="button" id="ocrCaptureBtn" onclick="captureAndProcessCard()" style="width: 100%; padding: 12px; background: #003366; color: #fff; border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer;">
+        <i class="fa-solid fa-camera"></i> التقاط وقراءة الكرت
+      </button>
+
+      <p id="ocr-status-msg" style="font-size: 12px; color: #0284c7; margin-top: 10px; font-weight: 700;">
+        ضع أرقام الكرت داخل الإطار ثم اضغط التقاط
+      </p>
+    </div>
+  </div>
+
+  <!-- 4. نافذة فحص رصيد وصلاحية الكرت -->
+  <div id="balanceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 250000; align-items: center; justify-content: center; padding: 16px;" onclick="closeBalanceModal()">
+    <div style="background: #ffffff; border-radius: 24px; max-width: 380px; width: 100%; padding: 22px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); position: relative; text-align: center;" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeBalanceModal()" style="position: absolute; top: 14px; left: 14px; background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; color: #64748b; font-size: 18px;">✕</button>
+      
+      <div style="font-size: 38px; color: #0284c7; margin-bottom: 8px;">
+        <i class="fa-solid fa-gauge-high"></i>
+      </div>
+      
+      <h3 style="color: #003366; font-weight: 800; margin-bottom: 6px;">الاستعلام عن الكرت</h3>
+      <p style="font-size: 12px; color: #64748b; margin-bottom: 14px;">أدخل رقم الكرت لمعرفة الرصيد والمتبقي</p>
+
+      <!-- حقل الإدخال مع زر الكاميرا بداخله -->
+      <div style="position: relative; margin-bottom: 12px; display: flex; align-items: center;">
+        <input type="text" id="checkCardInput" placeholder="أدخل رقم الكرت هنا" style="width: 100%; padding: 12px 42px 12px 14px; border-radius: 12px; border: 1.5px solid #cbd5e1; outline: none; font-size: 15px; font-weight: bold; text-align: center; color: #003366;">
+        <button type="button" onclick="openScannerForBalance()" title="مسح الكرت بالكاميرا" style="position: absolute; left: 10px; background: none; border: none; cursor: pointer; color: #003366; font-size: 18px; padding: 4px; display: flex; align-items: center; justify-content: center;">
+          <i class="fa-solid fa-camera"></i>
+        </button>
+      </div>
+
+      <button type="button" id="checkBalanceBtn" onclick="queryCardBalance()" style="width: 100%; padding: 12px; background: #0284c7; color: #fff; border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer;">
+        استعلام الآن
+      </button>
+
+      <!-- منطقة عرض نتيجة الفحص -->
+      <div id="balanceResultBox" style="display: none; margin-top: 14px; padding: 12px; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; text-align: right; font-size: 13px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b; font-weight: 700;">حالة الكرت:</span>
+          <span id="resCardStatus" style="font-weight: 800; color: #16a34a;">نشط ومتاح</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="color: #64748b; font-weight: 700;">الرصيد المتبقي:</span>
+          <span id="resCardRemain" style="font-weight: 800; color: #003366;">---</span>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color: #64748b; font-weight: 700;">الوقت المتبقي:</span>
+          <span id="resCardTime" style="font-weight: 800; color: #003366;">---</span>
+        </div>
+      </div>
+
+      <p id="balanceErrorMsg" style="display: none; color: #ef4444; font-size: 12px; font-weight: 700; margin-top: 10px;"></p>
+    </div>
+  </div>
+
+<script>
+    const mikrotikUsername = "$(username)";
+    const mikrotikRemainBytes = "$(remain-bytes-total)";
+    const mikrotikTotalBytes = "$(limit-bytes-total)";
+
+    // إدارة الكاميرا وقراءة الأرقام (OCR)
+    let ocrStream = null;
+    let ocrTarget = 'login'; // تحديد وجهة الرقم: login أو balance
+
+    function openScannerForBalance() {
+      ocrTarget = 'balance';
+      openScannerModal();
+    }
+
+    async function openScannerModal() {
+      if (ocrTarget !== 'balance') ocrTarget = 'login';
+      const modal = document.getElementById('scannerModal');
+      const video = document.getElementById('ocr-video');
+      const statusMsg = document.getElementById('ocr-status-msg');
+      const captureBtn = document.getElementById('ocrCaptureBtn');
+      
+      modal.style.display = 'flex';
+      statusMsg.innerText = 'ضع أرقام الكرت داخل الإطار ثم اضغط التقاط';
+      statusMsg.style.color = '#0284c7';
+      captureBtn.disabled = false;
+      captureBtn.style.opacity = '1';
+
+      try {
+        ocrStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+        });
+        video.srcObject = ocrStream;
+      } catch (err) {
+        statusMsg.innerText = 'تعذر تشغيل الكاميرا: يرجى إعطاء الصلاحية للمتصفح';
+        statusMsg.style.color = '#ef4444';
+      }
+    }
+
+    function closeScannerModal() {
+      const modal = document.getElementById('scannerModal');
+      const video = document.getElementById('ocr-video');
+      
+      if (ocrStream) {
+        ocrStream.getTracks().forEach(track => track.stop());
+        ocrStream = null;
+      }
+      if (video) video.srcObject = null;
+      modal.style.display = 'none';
+    }
+
+    async function captureAndProcessCard() {
+      const video = document.getElementById('ocr-video');
+      const canvas = document.getElementById('ocr-canvas');
+      const statusMsg = document.getElementById('ocr-status-msg');
+      const captureBtn = document.getElementById('ocrCaptureBtn');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const checkCardInput = document.getElementById('checkCardInput');
+
+      if (!ocrStream || video.videoWidth === 0) {
+        statusMsg.innerText = 'الكاميرا غير جاهزة بعد، انتظر ثانية';
+        return;
+      }
+
+      captureBtn.disabled = true;
+      captureBtn.style.opacity = '0.6';
+      statusMsg.innerText = 'جاري معالجة وقراءة الأرقام...';
+      statusMsg.style.color = '#eab308';
+
+      const cropX = video.videoWidth * 0.10;
+      const cropY = video.videoHeight * 0.35;
+      const cropWidth = video.videoWidth * 0.80;
+      const cropHeight = video.videoHeight * 0.30;
+
+      canvas.width = cropWidth;
+      canvas.height = cropHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+      try {
+        const worker = await Tesseract.createWorker('eng');
+        await worker.setParameters({
+          tessedit_char_whitelist: '0123456789'
+        });
+        const res = await worker.recognize(canvas);
+        await worker.terminate();
+
+        const cleanText = res.data.text.replace(/\D/g, ' ');
+        const numbers = cleanText.trim().split(/\s+/);
+
+        const matchedCard = numbers.find(n => n.length >= 6);
+
+        if (matchedCard) {
+          if (ocrTarget === 'balance') {
+            if (checkCardInput) checkCardInput.value = matchedCard;
+          } else {
+            usernameInput.value = matchedCard;
+            if (passwordInput) passwordInput.value = matchedCard;
+          }
+          ocrTarget = 'login'; // إعادة التعيين للوضع الافتراضي
+
+          statusMsg.innerText = 'تم سحب الكرت بنجاح: ' + matchedCard;
+          statusMsg.style.color = '#16a34a';
+
+          setTimeout(() => {
+            closeScannerModal();
+          }, 800);
+        } else {
+          statusMsg.innerText = 'لم يتم التعرف على الرقم، قرّب المستطيل الأبيض وحاول مجدداً';
+          statusMsg.style.color = '#ef4444';
+          captureBtn.disabled = false;
+          captureBtn.style.opacity = '1';
+        }
+      } catch (e) {
+        statusMsg.innerText = 'خطأ أثناء المعالجة: ' + e.message;
+        statusMsg.style.color = '#ef4444';
+        captureBtn.disabled = false;
+        captureBtn.style.opacity = '1';
+      }
+    }
+
+    // دوال فتح وإغلاق نافذة فحص الرصيد
+    function openBalanceModal() {
+      const modal = document.getElementById('balanceModal');
+      const input = document.getElementById('checkCardInput');
+      const userVal = document.getElementById('username')?.value;
+      if (input && userVal) {
+        input.value = userVal;
+      }
+      document.getElementById('balanceResultBox').style.display = 'none';
+      document.getElementById('balanceErrorMsg').style.display = 'none';
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeBalanceModal() {
+      const modal = document.getElementById('balanceModal');
+      if (modal) modal.style.display = 'none';
+    }
+</script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

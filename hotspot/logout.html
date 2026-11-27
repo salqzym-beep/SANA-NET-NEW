@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شبكة سناء نت - تسجيل الخروج</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="main-container">
+    
+    <button type="button" class="theme-toggle-btn" onclick="toggleDarkMode()" title="تبديل الوضع الليلي / النهاري">
+      <i id="themeIcon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <div class="header-section">
+      <div class="logo-wrapper">
+        <img id="logo" src="img/kjl.jpg.jpeg" alt="شعار سناء نت">
+      </div>
+      <h1 class="net-title">SANA NET</h1>
+      <p class="net-slogan">تم تسجيل خروجك بنجاح</p>
+
+      <div class="greeting-dhikr-bar">
+        <span id="smartGreeting" class="greeting-text">مع السلامة</span>
+        <span class="separator">•</span>
+        <span id="rotatingDhikr" class="dhikr-text">سبحان الله</span>
+      </div>
+    </div>
+
+    <div class="body-content">
+      
+      <div class="connected-card" style="display: block;">
+        <div class="connected-header">
+          <div class="connected-title">
+            <h2>إحصائيات جلستك</h2>
+            <p>ملخص استهلاك الكرت خلال الاتصال الأخير</p>
+          </div>
+          <div class="check-badge" style="background: #ef4444; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </div>
+        </div>
+
+        <div class="status-rows-list">
+          <div class="status-row-item">
+            <span class="label">اسم المستخدم</span>
+            <span class="val">$(username)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">إجمالي التنزيل</span>
+            <span class="val">$(bytes-in-nice)</span>
+          </div>
+
+          <div class="status-row-item">
+            <span class="label">إجمالي الرفع</span>
+            <span class="val">$(bytes-out-nice)</span>
+          </div>
+
+          $(if remain-bytes-total)
+          <div class="status-row-item">
+            <span class="label">الرصيد المتبقي</span>
+            <span class="val">$(remain-bytes-total-nice)</span>
+          </div>
+          $(endif)
+
+          <div class="status-row-item">
+            <span class="label">وقت الاتصال المستهلك</span>
+            <span class="val">$(uptime)</span>
+          </div>
+        </div>
+
+        <!-- زر العودة لصفحة تسجيل الدخول -->
+        <form action="$(link-login)" name="login" method="post">
+          <button type="submit" class="login-btn" style="margin-top: 16px;">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+            <span>تسجيل الدخول مجدداً</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="support-btn-box">
+        <button type="button" class="support-btn" onclick="contactSupportWhatsApp()">
+          <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i>
+          <span>خدمة العملاء والدعم الفني</span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="page-footer-url">
+      رابط الصفحة :- 10.0.0.1
+    </div>
+
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شبكة سناء نت - جاري الاتصال</title>
+  
+  <!-- إعادة توجيه تلقائية لصفحة الحالة أو الموقع المطلوب -->
+  <meta http-equiv="refresh" content="2; url=$(link-redirect)">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    function startRedirect() {
+      // إذا لم يتم التحويل تلقائياً يتم الانتقال بعد ثانيتين
+      setTimeout(function() {
+        window.location.href = "$(link-redirect)";
+      }, 2000);
+    }
+  </script>
+</head>
+<body onload="startRedirect()">
+
+  <div class="main-container" style="text-align: center; padding: 40px 20px;">
+    
+    <div class="logo-wrapper">
+      <img id="logo" src="img/kjl.jpg.jpeg" alt="شعار سناء نت">
+    </div>
+
+    <div style="margin: 25px 0;">
+      <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 45px; color: #003366;"></i>
+    </div>
+
+    <h2 style="color: #003366; font-weight: 800; margin-bottom: 8px;">تم تسجيل الدخول بنجاح!</h2>
+    <p style="color: #64748b; font-size: 14px; font-weight: 700; margin-bottom: 20px;">جاري توجيهك إلى الإنترنت...</p>
+
+    <p style="font-size: 13px; color: #94a3b8;">
+      إذا لم يتم تحويلك تلقائياً، <a href="$(link-redirect)" style="color: #003366; font-weight: 800; text-decoration: underline;">اضغط هنا</a>
+    </p>
+
+  </div>
+
+</body>
+</html>
